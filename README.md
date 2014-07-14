@@ -1,4 +1,4 @@
 igor
 ====
 
-Scala experiment management framework
+Scala experiment management framework. It's pronounced "eye-gor".
