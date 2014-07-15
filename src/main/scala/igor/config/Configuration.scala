@@ -54,10 +54,9 @@ class Configuration(sourceMap: collection.Map[Symbol,Any], val parent: Option[Co
     s"Configuration{ ${inside.mkString(", ")} }"
   }
 
-  def -(key: Symbol): Map[Symbol, Any] = ???
+  override def -(key: Symbol): Map[Symbol, Any] = ???
 
-  // TODO why is this cast necessary?
-  def +[Any](kv: (Symbol, Any)): Map[Symbol, Any] = (backingMap + kv).asInstanceOf[Map[Symbol,Any]]
+  override def +[X >: Any](kv: (Symbol, X)): Map[Symbol, X] = backingMap + kv
 
   private def instantiateBackingMap(sourceMap: collection.Map[Symbol,Any]): Map[Symbol,Any] = {
     (for {

@@ -44,9 +44,8 @@ abstract class Experiment(val config: Configuration) extends Logging {
         val currentStage = ReflectionHelper.instantiateWithDefaults[A](
             config.getSubConfiguration(stageName)
         )
-        currentStage.experiment = this
         try {
-          currentStage.run()
+          currentStage.run(this)
         } catch {
           case e: Throwable =>
             saveState()
@@ -117,7 +116,7 @@ abstract class Experiment(val config: Configuration) extends Logging {
     }
   }
 
-  def get[A](name: Symbol)(implicit mf: Manifest[A]): A = {
+  def get[A](name: Symbol)(implicit ct: ClassTag[A]): A = {
     resultCache.getOrElseUpdate(name, getDisk(name)).asInstanceOf[A]
   }
 
